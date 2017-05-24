@@ -41,6 +41,7 @@ var Engine = (function(global) {
          */
         var now = Date.now(),
             dt = (now - lastTime) / 1000.0;
+            //dt = 0.05;
 
         /* Call our update/render functions, pass along the time delta to
          * our update function since it may be used for smooth animation.
@@ -80,7 +81,7 @@ var Engine = (function(global) {
      */
     function update(dt) {
         updateEntities(dt);
-        // checkCollisions();
+        checkCollisions();
     }
 
     /* This is called by the update function and loops through all of the
@@ -160,6 +161,23 @@ var Engine = (function(global) {
      */
     function reset() {
         // noop
+    }
+
+    function resetPlayer(player){
+        player.reset();
+    }
+
+    function resetEnemy(enemy){
+        enemy.reset();
+    }
+
+    function checkCollisions(){
+        allEnemies.forEach(function(enemy){
+            if(enemy.x > player.x &&enemy.x < player.x+50 && enemy.y==player.y){
+                resetPlayer(player);
+                resetEnemy(enemy)
+            }
+        })
     }
 
     /* Go ahead and load all of the images we know we're going to need to
